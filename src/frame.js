@@ -1,6 +1,7 @@
 export default class h {
   constructor($root, newNode) {
     this.$root = $root;
+    this.$state={}
     this.oldNode = null;
     this.newNode = newNode;
   }

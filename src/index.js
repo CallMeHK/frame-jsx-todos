@@ -4,32 +4,33 @@ import h from "./frame";
 import "./styles.css";
 
 let $root = document.getElementById("app");
-let $state;
+let $state = {
+  listInternal: ["beer", "cheese", "soup"],
+  get list() {
+    return this.listInternal;
+  },
+  set list(val) {
+    this.listInternal = val;
+    dom.render(<App />);
+  }
+};
 
 const App = props => {
-  if (!$state) {
-    $state = {
-      internal: { list: ["beer", "cheese", "soup"] },
-      get get() {
-        return this.internal;
-      },
-      set set(val) {
-        this.internal = val;
-        dom.render(<App />);
-      }
-    };
-  }
 
-  const onClick = () => {
-    $state.set = { ...$state.get, list: [...$state.get.list, "beer"] };
-  };
+  const onEnter = (e) => {
+    e.preventDefault();
+    if (e.keyCode === 13) {
+        $state.list = [...$state.list, e.target.value]
+        e.target.value = ''
+    }
+  }
 
   return (
     <div>
-      <h2>State</h2>
-      <button onClick={onClick}>Add beer</button>
+      <h2>List</h2>
+      <input onKeyup={onEnter} />
       <ul>
-        {$state.get.list.map(elt => (
+        {$state.list.map(elt => (
           <li>{elt}</li>
         ))}
       </ul>
